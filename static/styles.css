@@ -1,0 +1,94 @@
+/* Global Styles */
+
+ 
+
+.post {
+    padding-top: -15px;
+    word-wrap: break-word; /* Break long words into the next line */
+    overflow-wrap: break-word; /* Ensures compatibility with modern browsers */
+    white-space: normal; /* Allows text to wrap and respects line breaks */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+   
+    padding: 20px;
+    background-color: #f9fafb;
+    color: #333;
+    line-height: 1.6;
+   
+}
+
+/* Navigation Bar */
+nav {
+    background: linear-gradient(to right, #5aaaff, #0056b3);
+    color: white;
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+}
+
+article {
+
+    
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    background: linear-gradient(to right, #d8ebff, #80bdff);
+
+   
+    
+}
+
+nav a {
+    color: white; /* Set link text color explicitly */
+    text-decoration: none; /* Optional: Remove underline from links */
+}
+
+h1 {
+
+    text-align: center; /* Centers the text */
+    color: #0f4fff; /* Blue color */
+    font-size: 2.5rem; /* Large font size */
+    margin-top: 20px; /* Add spacing from the top */
+    margin-bottom: 35px;
+
+}
+
+h2 {
+
+     /* Centers the text */
+    color: #0a0b0c; /* Blue color */
+    font-size: 1.2rem; /* Large font size */
+    margin-top: 45px; /* Add spacing from the top */
+    margin-bottom: 27px;
+
+}
+ 
+textarea {
+    width: calc(100% - 40px); /* Fit the screen width, subtract padding/margin */
+    max-width: 140%; /* Prevent overflowing horizontally */
+    padding: 5px; /* Add inner spacing */
+    margin: 0 20px; /* Add space from the screen edges */
+    box-sizing: border-box; /* Includes padding in the width */
+    resize: vertical; /* Allow resizing only vertically */
+    border: 1px solid #110b0b; /* Optional: Border styling */
+    border-radius: 5px; /* Optional: Rounded corners */
+    font-size: 1rem; /* Optional: Font size for better readability */
+}
+
+h3 {
+
+    /* Centers the text */
+   color: #0a0b0c; /* Blue color */
+   font-size: 1.6rem; /* Large font size */
+   margin-top: 45px; /* Add spacing from the top */
+   margin-bottom: 27px;
+   padding-top: 25px;
+
+}
+
+
