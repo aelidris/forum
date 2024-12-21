@@ -90,7 +90,11 @@ article h3 {
 article p {
     margin-bottom: 10px;
     color: #555;
+    max-width: 800px; /* Set the maximum width for the paragraph */
+    line-height: 1.6; /* Optional: Improves readability */
+    word-wrap: break-word; /* Ensures long words break to the next line */
 }
+
 article small {
     display: block;
     color: #777;
