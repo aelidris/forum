@@ -1,94 +1,148 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');
+
 /* Global Styles */
-
- 
-
-.post {
-    padding-top: -15px;
-    word-wrap: break-word; /* Break long words into the next line */
-    overflow-wrap: break-word; /* Ensures compatibility with modern browsers */
-    white-space: normal; /* Allows text to wrap and respects line breaks */
-}
-
 body {
-    font-family: 'Roboto', sans-serif;
-   
-    padding: 20px;
-    background-color: #f9fafb;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(to bottom, #eef2f3, #d4d9dd);
     color: #333;
-    line-height: 1.6;
-   
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
 }
 
 /* Navigation Bar */
 nav {
-    background: linear-gradient(to right, #5aaaff, #0056b3);
+    background: #3a3f58;
     color: white;
-    padding: 1.2rem;
+    padding: 15px 30px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    
+    justify-content: center;
+    border-bottom: 3px solid #5661a6;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
-
-article {
-
-    
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 10px;
-    background: linear-gradient(to right, #d8ebff, #80bdff);
-
-   
-    
-}
-
 nav a {
-    color: white; /* Set link text color explicitly */
-    text-decoration: none; /* Optional: Remove underline from links */
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 20px;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+nav a:hover {
+    color: #cdd3ff;
 }
 
+/* Header Section */
 h1 {
-
-    text-align: center; /* Centers the text */
-    color: #0f4fff; /* Blue color */
-    font-size: 2.5rem; /* Large font size */
-    margin-top: 20px; /* Add spacing from the top */
-    margin-bottom: 35px;
-
+    text-align: center;
+    font-size: 3rem;
+    color: #3a3f58;
+    margin: 20px 0;
 }
-
 h2 {
-
-     /* Centers the text */
-    color: #0a0b0c; /* Blue color */
-    font-size: 1.2rem; /* Large font size */
-    margin-top: 45px; /* Add spacing from the top */
-    margin-bottom: 27px;
-
+    font-size: 2rem;
+    text-align: center;
+    color: #444;
+    margin: 15px 0;
+    font-weight: 500;
 }
- 
-textarea {
-    width: calc(100% - 40px); /* Fit the screen width, subtract padding/margin */
-    max-width: 140%; /* Prevent overflowing horizontally */
-    padding: 5px; /* Add inner spacing */
-    margin: 0 20px; /* Add space from the screen edges */
-    box-sizing: border-box; /* Includes padding in the width */
-    resize: vertical; /* Allow resizing only vertically */
-    border: 1px solid #110b0b; /* Optional: Border styling */
-    border-radius: 5px; /* Optional: Rounded corners */
-    font-size: 1rem; /* Optional: Font size for better readability */
-}
-
 h3 {
-
-    /* Centers the text */
-   color: #0a0b0c; /* Blue color */
-   font-size: 1.6rem; /* Large font size */
-   margin-top: 45px; /* Add spacing from the top */
-   margin-bottom: 27px;
-   padding-top: 25px;
-
+    font-size: 1.5rem;
+    color: #3a3f58;
+    margin: 10px 0;
 }
 
+/* Posts Section */
+.post {
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+.post:hover {
+    transform: translateY(-5px);
+}
+.post h1 {
+    font-size: 2rem;
+    color: #3a3f58;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+article {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #f9f9f9;
+}
+article h3 {
+    font-size: 1.8rem;
+    color: #3a3f58;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+article p {
+    margin-bottom: 10px;
+    color: #555;
+}
+article small {
+    display: block;
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: right;
+}
 
+/* Forms */
+form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    margin: 30px auto;
+    max-width: 700px;
+    border: 1px solid #d1d1d1;
+}
+form label {
+    font-weight: 600;
+    color: #3a3f58;
+}
+form input, form textarea, form button {
+    display: block;
+    width: 90%;
+    margin: 15px 0;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1.5px solid #d1d1d1;
+    transition: border-color 0.3s ease;
+    background: #f9f9f9;
+}
+form input:focus, form textarea:focus {
+    border-color: #5661a6;
+    background: #eef2f3;
+}
+form button {
+    background: #5661a6;
+    color: white;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+form button:hover {
+    background: #3a3f58;
+}
+
+/* Utility */
+hr {
+    margin: 30px 0;
+    border: none;
+    border-top: 2px solid #ddd;
+}
