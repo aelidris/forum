@@ -86,7 +86,11 @@ article h3 {
     color: #3a3f58;
     margin-bottom: 10px;
     font-weight: 600;
+    max-width: 800px; /* Set the maximum width for the heading */
+    line-height: 1.6; /* Improves readability for multi-line headings */
+    word-wrap: break-word; /* Ensures long words break to the next line */
 }
+
 article p {
     margin-bottom: 10px;
     color: #555;

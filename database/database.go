@@ -1,22 +1,15 @@
 package database
 
-import(
-
+import (
 	"database/sql"
-
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
-
 )
-
 
 var DB *sql.DB
 
-
-
 func InitDB() {
-	
 	var err error
 	DB, err = sql.Open("sqlite3", "./forum.db")
 	if err != nil {
@@ -26,10 +19,10 @@ func InitDB() {
 	// Create tables
 	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		username TEXT UNIQUE,
-		email TEXT UNIQUE,
-		password TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL CHECK(email LIKE '%@%.%'),
+    password TEXT NOT NULL
 	);`
 	createPostsTable := `
 	CREATE TABLE IF NOT EXISTS posts (
