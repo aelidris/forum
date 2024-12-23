@@ -12,7 +12,7 @@ import (
 
 var (
 	emailRegex    = regexp.MustCompile(`^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z` + "`" + `{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$`)
-	usernameRegex = regexp.MustCompile(`^[a-zA-Z0-9_-]{3,15}$`) // Username regex
+	usernameRegex = regexp.MustCompile(`^[A-Za-z][A-Za-z0-9_]{7,29}$"`) // Username regex
 )
 
 var registerTemplate = template.Must(template.ParseFiles("templates/register.html"))
@@ -80,10 +80,9 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	// Validate username format
 	if !usernameRegex.MatchString(username) {
 		script := getAlertScript("Invalid username format")
-
 		fmt.Fprint(w, script)
 		data := map[string]string{
-			"Error":    "Invalid username. Must be 3-15 characters long and contain only letters, numbers, underscores, or hyphens.",
+			"Error":    "Invalid username.",
 			"Email":    email,
 			"Username": username,
 		}
