@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"regexp"
+	"strings"
 
 	"forum/database"
 )
@@ -13,6 +15,9 @@ var emailRegex = regexp.MustCompile(`^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*
 var registerTemplate = template.Must(template.ParseFiles("templates/register.html"))
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+	html := `
+	<script> alert('invalid email')</script>
+	`
 	if r.Method == http.MethodGet {
 		registerTemplate.Execute(w, nil)
 		return
@@ -31,6 +36,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Validate input fields
 	if email == "" || username == "" || password == "" {
+
 		data := map[string]string{
 			"Error":    "All fields are required",
 			"Email":    email,
@@ -40,14 +46,27 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	LocalPart, DomainPart := "", ""
+	if strings.Contains(email, "@") {
+		parts := strings.Split(email, "@")
+
+		// Check if exactly one "@" symbol exists
+		if len(parts) == 2 {
+			LocalPart = parts[0]
+			DomainPart = parts[1]
+		}
+	}
+
 	// Validate email format
-	if !emailRegex.MatchString(email) {
+	if !emailRegex.MatchString(email) || len(email) > 320 || len(LocalPart) > 64 || len(DomainPart) > 255 {
+		fmt.Fprint(w, html)
 		data := map[string]string{
 			"Error":    "Invalid email format. Please try again.",
 			"Email":    email,
 			"Username": username,
 		}
 		registerTemplate.Execute(w, data)
+
 		return
 	}
 
