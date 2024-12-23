@@ -10,14 +10,18 @@ import (
 	"forum/database"
 )
 
-var emailRegex = regexp.MustCompile(`^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z` + "`" + `{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$`)
+var (
+	emailRegex    = regexp.MustCompile(`^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z` + "`" + `{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$`)
+	usernameRegex = regexp.MustCompile(`^[a-zA-Z0-9_-]{3,15}$`) // Username regex
+)
 
 var registerTemplate = template.Must(template.ParseFiles("templates/register.html"))
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	html := `
-	<script> alert('invalid email')</script>
-	`
+	// Function to generate dynamic script
+	getAlertScript := func(message string) string {
+		return fmt.Sprintf(`<script>alert('%s')</script>`, message)
+	}
 	if r.Method == http.MethodGet {
 		registerTemplate.Execute(w, nil)
 		return
@@ -59,7 +63,10 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Validate email format
 	if !emailRegex.MatchString(email) || len(email) > 320 || len(LocalPart) > 64 || len(DomainPart) > 255 {
-		fmt.Fprint(w, html)
+		script := getAlertScript("Invalid email format. Please try again.")
+
+		fmt.Fprint(w, script)
+
 		data := map[string]string{
 			"Error":    "Invalid email format. Please try again.",
 			"Email":    email,
@@ -67,6 +74,20 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		registerTemplate.Execute(w, data)
 
+		return
+	}
+
+	// Validate username format
+	if !usernameRegex.MatchString(username) {
+		script := getAlertScript("Invalid username format")
+
+		fmt.Fprint(w, script)
+		data := map[string]string{
+			"Error":    "Invalid username. Must be 3-15 characters long and contain only letters, numbers, underscores, or hyphens.",
+			"Email":    email,
+			"Username": username,
+		}
+		registerTemplate.Execute(w, data)
 		return
 	}
 
