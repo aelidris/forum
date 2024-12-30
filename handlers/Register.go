@@ -64,7 +64,6 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	// Validate email format
 	if !emailRegex.MatchString(email) || len(email) > 320 || len(LocalPart) > 64 || len(DomainPart) > 255 {
 		script := getAlertScript("Invalid email format. Please try again.")
-
 		fmt.Fprint(w, script)
 
 		data := map[string]string{
@@ -76,10 +75,9 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
-
 	// Validate username format
 	if !usernameRegex.MatchString(username) {
-		script := getAlertScript("Invalid username format")
+		script := getAlertScript("Invalid username format: it should contain at least 8 characters and start with an alphabetic character")
 		fmt.Fprint(w, script)
 		data := map[string]string{
 			"Error":    "Invalid username.",
