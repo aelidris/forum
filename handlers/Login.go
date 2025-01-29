@@ -1,70 +1,82 @@
 package handlers
 
 import (
-
+	"encoding/json"
 	"net/http"
-    "github.com/gofrs/uuid"
 	"time"
+
 	"forum/database"
 
+	"github.com/gofrs/uuid"
 )
 
-var sessions = make(map[string]int) // session_id -> user_id mapping
-
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-    if r.Method == http.MethodGet {
-        http.ServeFile(w, r, "templates/login.html") // Render login form
-        return
-    }
+	Sesion  , code := Checksession(w, r)
+	if code == http.StatusInternalServerError{ 
+		Eroors(w, r, code)
+		return 
+	}
+	if  Sesion {
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
+		return
+	}
 
-    // Parse form data
-    err := r.ParseForm()
-    if err != nil {
-        http.Error(w, "Invalid form data", http.StatusBadRequest)
-        return
-    }
+	if r.Method == http.MethodGet {
+		http.ServeFile(w, r, "templates/login.html")
+		return
+	}
+	var data struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
 
-    username := r.FormValue("username")
-    password := r.FormValue("password")
+	if r.Method == http.MethodPost {
+		err := json.NewDecoder(r.Body).Decode(&data)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
 
-    // Validate input
-    if username == "" || password == "" {
-        http.Error(w, "Both username and password are required", http.StatusBadRequest)
-        return
-    } 
+		if data.Username == "" || data.Password == "" {
+			http.Error(w, "Both username and password are required", http.StatusBadRequest)
+			return
+		}
+	}
 
-    // Fetch the user from the database
-    var userID int
-    var storedPassword string
-    err = database.DB.QueryRow("SELECT id, password FROM users WHERE username = ?", username).Scan(&userID, &storedPassword)
-    if err != nil {
-        http.Error(w, "Invalid username or password", http.StatusUnauthorized)
-        return
-    }
+	username := data.Username
+	password := data.Password
 
-    // Validate the password (for now, compare plaintext passwords; use bcrypt in production)
-    if password != storedPassword {
-        http.Error(w, "Invalid username or password", http.StatusUnauthorized)
-        return
-    }
+	var userID int
+	var storedPassword string
+	Dberror := database.DB.QueryRow("SELECT id, password FROM users WHERE username = ?", username).Scan(&userID, &storedPassword)
+	if Dberror != nil {
+		http.Error(w, "Invalid username ", http.StatusUnauthorized)
+		return
+	}
 
-    // Generate a new session ID
-    sessionID, err := uuid.NewV4()
-    if err != nil {
-        http.Error(w, "Failed to create session", http.StatusInternalServerError)
-        return
-    }
+	if password != storedPassword {
+		http.Error(w, "Invalid  password", http.StatusUnauthorized)
+		return
+	}
 
-    // Store the session ID and associated user ID
-    sessions[sessionID.String()] = userID
+	sessionID, err := uuid.NewV4()
+	if err != nil {
+		http.Error(w, "Failed to create session", http.StatusInternalServerError)
+		return
+	}
+	_, err = database.DB.Exec(`
+    INSERT INTO sessions (session_id, user_id, expires_at, ip_address, user_agent)
+    VALUES (?, ?, ?, ?, ?)`, sessionID, userID, time.Now().Add(24*time.Hour), r.RemoteAddr, r.UserAgent())
+	if err != nil {
+		http.Error(w, "Failed to store session", http.StatusInternalServerError)
+		return
+	}
 
-    // Set the session cookie
-    http.SetCookie(w, &http.Cookie{
-        Name:    "session_id",
-        Value:   sessionID.String(),
-        Expires: time.Now().Add(24 * time.Hour), // Session valid for 24 hours
-    })
+	http.SetCookie(w, &http.Cookie{
+		Name:    "session_id",
+		Value:   sessionID.String(),
+		Expires: time.Now().Add(24 * time.Hour),
+	})
 
-    // Redirect to the home page
-    http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

@@ -1,156 +1,274 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');
 
-/* Global Styles */
 body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(to bottom, #eef2f3, #d4d9dd);
-    color: #333;
     margin: 0;
-    padding: 0;
-    line-height: 1.8;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
 }
 
-/* Navigation Bar */
-nav {
-    background: #3a3f58;
+.navbar {
+    background-color: #4267b2; 
     color: white;
-    padding: 15px 30px;
+    padding: 8px 15px;
     display: flex;
-    justify-content: center;
-    border-bottom: 3px solid #5661a6;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+   
 }
-nav a {
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
     color: white;
     text-decoration: none;
-    font-weight: 500;
-    margin: 0 20px;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
-}
-nav a:hover {
-    color: #cdd3ff;
-}
-
-/* Header Section */
-h1 {
-    text-align: center;
-    font-size: 3rem;
-    color: #3a3f58;
-    margin: 20px 0;
-}
-h2 {
-    font-size: 2rem;
-    text-align: center;
-    color: #444;
-    margin: 15px 0;
-    font-weight: 500;
-}
-h3 {
-    font-size: 1.5rem;
-    color: #3a3f58;
-    margin: 10px 0;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-/* Posts Section */
-.post {
+.nav-links a:hover {
+    background-color: #365899;
+}
+
+.nav-links a i {
+    font-size: 16px;
+}
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 20px;
+}
+.left-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     max-width: 800px;
-    margin: 30px auto;
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
+    margin: 0 auto;
 }
-.post:hover {
-    transform: translateY(-5px);
+.posts-section {
+    flex: 3;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 15px;
 }
-.post h1 {
-    font-size: 2rem;
-    color: #3a3f58;
+
+.posts-section h1 {
+    font-size: 20px;
     margin-bottom: 15px;
-    border-bottom: 2px solid #ddd;
+}
+
+.posts-section article {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
 }
-article {
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    background: #f9f9f9;
+
+.posts-section article h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
 }
+
+.posts-section article p {
+    font-size: 14px;
+    color: #555;
+}
+
+.posts-section article small {
+    font-size: 12px;
+    color: #888;
+}
+
+.create-post-section {
+    flex: 2;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.create-post-section h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.create-post-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.create-post-section form label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.create-post-section form input,
+.create-post-section form textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.create-post-section form button {
+    background-color: #4267b2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#error{
+    color: rgb(247, 12, 12);
+    display: none;
+}
+
+.create-post-section form button:hover {
+    background-color: #365899;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .posts-section,
+    .create-post-section {
+        width: 100%;
+    }
+}
+
+
+
+article {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
 article h3 {
-    font-size: 1.8rem;
-    color: #3a3f58;
     margin-bottom: 10px;
-    font-weight: 600;
-    max-width: 800px; /* Set the maximum width for the heading */
-    line-height: 1.6; /* Improves readability for multi-line headings */
-    word-wrap: break-word; /* Ensures long words break to the next line */
+    color: #333;
 }
 
 article p {
-    margin-bottom: 10px;
+    margin: 5px 0;
     color: #555;
-    max-width: 800px; /* Set the maximum width for the paragraph */
-    line-height: 1.6; /* Optional: Improves readability */
-    word-wrap: break-word; /* Ensures long words break to the next line */
 }
 
-article small {
-    display: block;
-    color: #777;
-    font-size: 0.9rem;
+/* Styling for the reaction icons */
+.reaction-icons {
     margin-top: 10px;
-    text-align: right;
 }
 
-/* Forms */
-form {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    margin: 30px auto;
-    max-width: 700px;
-    border: 1px solid #d1d1d1;
+.reaction-icons i {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 20px;
+    transition: color 0.3s ease;
 }
-form label {
-    font-weight: 600;
-    color: #3a3f58;
+
+.active {
+    color:green;
 }
-form input, form textarea, form button {
-    display: block;
-    width: 90%;
-    margin: 15px 0;
-    padding: 15px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1.5px solid #d1d1d1;
-    transition: border-color 0.3s ease;
-    background: #f9f9f9;
+
+.desactive {
+    color:red;
 }
-form input:focus, form textarea:focus {
-    border-color: #5661a6;
-    background: #eef2f3;
+
+
+.filter-section {
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 10px; 
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-form button {
-    background: #5661a6;
+
+.filter-section input {
+    width: 95%; 
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+
+.filter-section select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+}
+.comments-section{
+    margin-top: 20px;
+    display: flex ;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.comment-form {
+    display:grid;
+    gap: 10px;
+    margin-top: 20px;
+}
+.comment-form textarea {
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 10px;
+    flex: 1;
+    border: 1px solid #ccc;
+    resize: none;
+
+}
+.coomment-field {
+    flex: 1;
+    resize: none;
+    border: none;
+    font-size: 14px;
+    outline: none;
+}
+.comment-form button {
+    background-color: #4267b2;
     color: white;
     border: none;
-    font-weight: 700;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s;
 }
-form button:hover {
-    background: #3a3f58;
+.comment-form button:hover {
+    background-color: #365899;
 }
-
-/* Utility */
-hr {
-    margin: 30px 0;
-    border: none;
-    border-top: 2px solid #ddd;
+#CommentError{
+    color: red;
+    margin-top: 10px;
+    display: none;
 }

@@ -1,61 +1,75 @@
 package handlers
 
-
-import(
+import (
+	"database/sql"
+	"encoding/json"
+	"fmt"
 	"net/http"
+
 	"forum/database"
 )
 
-
 func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
-    // Ensure the method is POST for creating a post
+	if r.Method != http.MethodPost {
+		Eroors(w, r, http.StatusMethodNotAllowed)
+		return
+	}
+	sesionid ,  code:=  Checksession(w, r)
+	if code != http.StatusOK {
+		Eroors(w, r, code)
+		return
+	}else  if !sesionid {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+	// Validate the session
+	session  , _:= r.Cookie("session_id")
+	var userID int
+	err := database.DB.QueryRow("SELECT user_id FROM sessions WHERE session_id = ?", session.Value).Scan(&userID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+		} else {
+			Eroors(w, r, http.StatusInternalServerError)
+			fmt.Println("Error fetching user ID:", err)
+		}
+		return
+	}
+	//  parse  json data
+	var postContent  struct {
+		Title string `json:"title"`
+		Content  string `json:"content"`
+		Category string `json:"category"`
+	}
+	err = json.NewDecoder(r.Body).Decode(&postContent)
+	if err != nil {
+		Eroors(w, r, http.StatusBadRequest)
+		return
+	}
+	switch {
+	case postContent.Title == "":
+		http.Error(w, "Title is required", http.StatusBadRequest)
+		return
+	case postContent.Content == "":
+		http.Error(w, "Content is required", http.StatusBadRequest)
+		return
+	}
+	// Insert the post into the database
+	_, err = database.DB.Exec(`
+        INSERT INTO posts (title, content, category, user_id) 
+        VALUES (?, ?, ?, ?)`, postContent.Title, postContent.Content, postContent.Category, userID)
+	if err != nil {
+		Eroors(w, r, http.StatusInternalServerError)
+		return
+	}
 
-	
-    if r.Method != http.MethodPost {
-        http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-        return
-    }
-
-    // Fetch the session cookie
-    cookie, err := r.Cookie("session_id")
-    if err != nil {
-        http.Error(w, "You must be logged in to create a post", http.StatusUnauthorized)
-        return
-    }
-
-    // Validate the session
-    sessionID := cookie.Value
-    userID, loggedIn := sessions[sessionID]
-    if !loggedIn {
-        http.Error(w, "Invalid session. Please log in again.", http.StatusUnauthorized)
-        return
-    }
-
-    // Parse the form data
-    err = r.ParseForm()
-    if err != nil {
-        http.Error(w, "Failed to parse form data: "+err.Error(), http.StatusBadRequest)
-        return
-    }
-
-    // Get the post details
-    title := r.FormValue("title")
-    content := r.FormValue("content")
-
-    if title == "" || content == "" {
-        http.Error(w, "Title and content cannot be empty", http.StatusBadRequest)
-        return
-    }
-
-    // Insert the post into the database
-    _, err = database.DB.Exec(`
-        INSERT INTO posts (title, content, user_id) 
-        VALUES (?, ?, ?)`, title, content, userID)
-    if err != nil {
-        http.Error(w, "Failed to create post: "+err.Error(), http.StatusInternalServerError)
-        return
-    }
-
-    // Redirect back to the home page
-    http.Redirect(w, r, "/", http.StatusSeeOther)
+	// Redirect back to the home page
+	post  , _ :=  GetPostsByUser(w , r )
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	response := map[string]interface{}{
+		"status" : "success",
+		"post" : post[len(post)-1] ,
+	}
+	json.NewEncoder(w).Encode(response)
 }
