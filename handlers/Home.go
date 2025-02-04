@@ -33,22 +33,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Eroors(w, r, code)
 		return
 	}
-	if !Sesion {
-		fmt.Fprintf(w, `
-			<!DOCTYPE html>
-			<html>
-			<head>
-				<title>Clear LocalStorage</title>
-			</head>
-			<body>
-				<script>
-					// Clear localStorage
-					localStorage.clear();
-				</script>
-			</body>
-			</html>
-		`)
-	}
+
 
 	if r.URL.Path != "/" && r.URL.Path != "/home" {
 		Eroors(w, r, http.StatusNotFound)
@@ -78,7 +63,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		username, _ := Getusernamebyid(user_id)
 		if post.Username == username {
 			post.Type = "created"
-		}
+		} 
 		if Check(user_id, post.ID) {
 			post.Type = post.Type + " liked"
 		}

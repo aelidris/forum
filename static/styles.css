@@ -1,20 +1,20 @@
-
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: #f0f2f5;
     color: #333;
+
 }
 
 .navbar {
-    background-color: #4267b2; 
+    background-color: #4267b2;
     color: white;
     padding: 8px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-   
+
 }
 
 .logo {
@@ -48,12 +48,15 @@ body {
 .nav-links a i {
     font-size: 16px;
 }
+
 .container {
+    position: relative;
     display: flex;
     max-width: 1200px;
     margin: 20px auto;
     gap: 20px;
 }
+
 .left-section {
     display: flex;
     flex-direction: column;
@@ -61,6 +64,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
 }
+
 .posts-section {
     flex: 3;
     background-color: white;
@@ -96,7 +100,10 @@ body {
 }
 
 .create-post-section {
-    flex: 2;
+    display: none;
+    left: 30%;
+    position: absolute;
+    z-index: 1;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -139,7 +146,8 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-#error{
+
+#error {
     color: rgb(247, 12, 12);
     display: none;
 }
@@ -147,6 +155,34 @@ body {
 .create-post-section form button:hover {
     background-color: #365899;
 }
+
+#createPostModal {
+    display: none;
+    /* Hidden by default */
+    position: absolute;
+
+    background-color: rgba(216, 228, 255, 0.788);
+    /* Semi-transparent backdrop */
+    justify-content: center;
+    align-items: center;
+}
+.twoBtns {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    padding: 10px;
+}
+.close {
+    background-color: #4267b2;
+    color: white;
+    padding: 10px 20px; 
+    border-radius: 5px;
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    cursor: pointer;  
+}
+
 
 
 @media (max-width: 768px) {
@@ -192,24 +228,24 @@ article p {
 }
 
 .active {
-    color:green;
+    color: green;
 }
 
 .desactive {
-    color:red;
+    color: red;
 }
 
 
 .filter-section {
     width: 100%;
     background-color: #f5f5f5;
-    padding: 10px; 
+    padding: 10px;
     border-radius: 8px 8px 0 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .filter-section input {
-    width: 95%; 
+    width: 95%;
     padding: 8px;
     font-size: 16px;
     border-radius: 4px;
@@ -226,18 +262,21 @@ article p {
     background-color: #fff;
     cursor: pointer;
 }
-.comments-section{
+
+.comments-section {
     margin-top: 20px;
-    display: flex ;
+    display: flex;
     flex-direction: column;
     gap: 10px;
 
 }
+
 .comment-form {
-    display:grid;
+    display: grid;
     gap: 10px;
     margin-top: 20px;
 }
+
 .comment-form textarea {
     font-size: 14px;
     border-radius: 5px;
@@ -247,6 +286,7 @@ article p {
     resize: none;
 
 }
+
 .coomment-field {
     flex: 1;
     resize: none;
@@ -254,6 +294,7 @@ article p {
     font-size: 14px;
     outline: none;
 }
+
 .comment-form button {
     background-color: #4267b2;
     color: white;
@@ -264,10 +305,12 @@ article p {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .comment-form button:hover {
     background-color: #365899;
 }
-#CommentError{
+
+#CommentError {
     color: red;
     margin-top: 10px;
     display: none;

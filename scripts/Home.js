@@ -20,10 +20,12 @@ let creatpostbtn =  document.getElementById("create-post");
     .then(data => {
         if (data.status === 'success') {
             let posts_section = document.querySelector(".posts-section");
-            posts_section.appendChild(createPost(data.post));
+            let firstElement = posts_section.firstChild ;
+            let article = createPost(data.post);
+            posts_section.insertBefore(article, firstElement);
+            //posts_section.appendChild(article);
 
-
-
+            //handle adding comments for the added posts without reloading page
             let buttons = document.querySelectorAll("#comment-button-created");
             buttons.forEach((button) => {
                 button.addEventListener("click", (e) => {
@@ -31,7 +33,19 @@ let creatpostbtn =  document.getElementById("create-post");
                     addComment(e)
                 })
             })
+
+
+            //handle filter if adding posts without reloading the page
+            const posts = document.querySelectorAll('article[id^="article_post_"]');
+            let  radiosbtn  =  document.querySelectorAll("input[name='filter']");
+            radiosbtn.forEach(radio => {
+                radio.addEventListener("change", () => {
+                    let  filter  =  radio.value;
+                    filterPosts(filter, posts);
+                })
+            })
             
+            search_field(posts);
         } else {
             alert('Error');
         }
@@ -54,7 +68,7 @@ let creatpostbtn =  document.getElementById("create-post");
     // Create the article element
     const article = document.createElement('article');
     article.id = `article_post_${post.ID}`;
-    //article.classList.add(post.Type);
+    article.classList.add("created");
 
     // Create the category section
     const categorySection = document.createElement('h4');
