@@ -3,7 +3,9 @@ let creatpostbtn =  document.getElementById("create-post");
     e.preventDefault()
     let  Title  = document.getElementById("title").value;
     let Content = document.getElementById("content").value;
-    let Category = document.getElementById("category").value;
+    let Category = getSelectedCategories()
+    console.log(Category);
+    
     
     fetch(`/make-post`, {
         method: 'POST',

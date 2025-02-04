@@ -120,8 +120,21 @@
                 <input type="text" id="title" name="title"><br><br>
                 <label for="content">Content:</label><br>
                 <textarea id="content" name="content" rows="4" cols="40"></textarea><br><br>
-                <label for="category">Category: <span>(multiple categories separated by spaces)</span></label><br>
-                <textarea id="category" name="category" rows="4" cols="40"></textarea><br><br>
+                <div id="categoryContainer">
+                    <div>Category:</div>
+
+                    <input type="checkbox" id="technology" name="category" value="Technology">
+                    <label for="technology">Technology</label>
+
+                    <input type="checkbox" id="economy" name="category" value="Economy">
+                    <label for="economy">Economy</label>
+
+                    <input type="checkbox" id="science" name="category" value="Science">
+                    <label for="science">Science</label>
+                    <input type="checkbox" id="sport" name="category" value="Sport">
+                    <label for="sport">Sport</label>
+                </div>
+
                 <p id="error"></p>
                 <div class="twoBtns">
                     <button id="create-post" type="submit">Create Post</button>
@@ -139,5 +152,6 @@
     <script src="/scripts/like_deslike.js"></script>
     <script src="/scripts/like_comments.js"></script>
     <script src="/scripts/newPost.js"></script>
+    <script src="/scripts/handle_category.js"></script>
 </body>
 </html>

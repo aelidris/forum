@@ -183,6 +183,14 @@ body {
     cursor: pointer;  
 }
 
+#categoryContainer{
+    display: flex;
+}
+
+/* #technology, #economy, #science, #sport{
+    display: flex;
+} */
+
 
 
 @media (max-width: 768px) {
