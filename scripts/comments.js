@@ -28,13 +28,21 @@ async function  addComment(e) {
         if (data.status === 'success') {
             let comments_container = document.getElementById(`comment-container-${data.comment.PostID}`);
             comments_container.appendChild(createCommentsSection(data.comment));
+            let none_comment = document.getElementById(`none-comment-${data.comment.PostID}`);
+            if (none_comment != null) {
+                none_comment.style.display = "none";
+            }
+        //     let  input  =  document.querySelectorAll("textarea[name=comment]");
+        //     input.forEach(inp => {
+        //         inp.value = "";
+        //     })
         } else {
             alert('Error');
         }
     })
     .catch(err => {
         console.log(err)
-        error.innerHTML = "Something went wrong ! " + err;
+        error.innerHTML = "Cannot Add Comment ! (Field is empty Or something went wrong)";
         error.style.display = "block";
     });
 }

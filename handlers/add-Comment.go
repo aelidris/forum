@@ -83,7 +83,7 @@ func SaveComments(w http.ResponseWriter, r *http.Request) {
 	}*/
 
 	
-	if comment.Comment == "" {
+	if cmt := strings.TrimSpace( comment.Comment) ; cmt == "" {
 		http.Error(w, "Comment is required", http.StatusBadRequest)
 		return
 	}

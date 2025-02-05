@@ -34,7 +34,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	if r.URL.Path != "/" && r.URL.Path != "/home" {
 		Eroors(w, r, http.StatusNotFound)
 		return
@@ -63,7 +62,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		username, _ := Getusernamebyid(user_id)
 		if post.Username == username {
 			post.Type = "created"
-		} 
+		}
 		if Check(user_id, post.ID) {
 			post.Type = post.Type + " liked"
 		}
@@ -113,7 +112,6 @@ func Checksession(w http.ResponseWriter, r *http.Request) (bool, int) {
 	Db.QueryRow("SELECT user_id  FROM sessions WHERE session_id = ?", userSession.Value).Scan(&username)
 	return username != "", http.StatusOK
 }
-
 
 func Eroors(w http.ResponseWriter, r *http.Request, code int) {
 	Interface.ExecuteTemplate(w, "Error.html", map[string]interface{}{

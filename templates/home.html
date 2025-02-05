@@ -67,8 +67,8 @@
                     <!-- Comment Section -->
                     <div class="comments-section">
                         <section class="comments-container" id="comment-container-{{.ID}}">
-                            {{ if .Comments }}
                             <h2>Comments</h2>
+                            {{ if .Comments }}
                             {{ range .Comments }}
                             <div class="comment">
                                 <div class="comment-content">
@@ -87,7 +87,7 @@
                             </div>
                             {{ end }}
                             {{ else }}
-                            <p>No comments yet.</p>
+                            <p id="none-comment-{{.ID}}">No comments yet.</p>
                             {{ end }}
                         </section>
                         <!-- Comment Form -->
@@ -106,7 +106,7 @@
 
                 {{ end }}
                 {{ else }}
-                <p>No posts to display. Be the first to <a href="/make-post">add a post</a>!</p>
+                <p id="no-posts">No posts to display. Be the first to post!</p>
                 {{ end }}
             </div>
 

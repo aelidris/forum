@@ -27,6 +27,11 @@ let creatpostbtn =  document.getElementById("create-post");
             posts_section.insertBefore(article, firstElement);
             //posts_section.appendChild(article);
 
+            let no_posts = document.getElementById(`no-posts`);
+            if (no_posts != null) {
+                no_posts.style.display = "none";
+            }
+            
             //handle adding comments for the added posts without reloading page
             let buttons = document.querySelectorAll("#comment-button-created");
             buttons.forEach((button) => {
@@ -54,7 +59,7 @@ let creatpostbtn =  document.getElementById("create-post");
     })
     .catch(err => {
         let  error  = document.querySelector("#error");
-        error.innerHTML =  err;
+        error.innerHTML =  "Cannot create post ! (Field is empty Or something went wrong)";
         error.style.display = "block";
         console.log(err)
     });
@@ -131,10 +136,6 @@ let creatpostbtn =  document.getElementById("create-post");
     commentsContainer.classList.add('comments-container-created');
     commentsContainer.setAttribute("id", `comment-container-${post.ID}`)
     if (post.Comments && post.Comments.length > 0) {
-        const commentsHeader = document.createElement('h2');
-        commentsHeader.textContent = 'Comments';
-        commentsContainer.appendChild(commentsHeader);
-
         post.Comments.forEach(comment => {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
