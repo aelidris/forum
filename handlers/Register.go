@@ -25,7 +25,10 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == http.MethodGet {
-		http.ServeFile(w, r, "templates/register.html")
+		Eroor := Interface.ExecuteTemplate(w, "register.html", nil)
+		if Eroor != nil {
+			Eroors(w, r, http.StatusInternalServerError)
+		}
 		return
 	}
 

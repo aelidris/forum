@@ -4,7 +4,6 @@ let creatpostbtn =  document.getElementById("create-post");
     let  Title  = document.getElementById("title").value;
     let Content = document.getElementById("content").value;
     let Category = getSelectedCategories()
-    console.log(Category);
     
     
     fetch(`/make-post`, {
@@ -21,6 +20,10 @@ let creatpostbtn =  document.getElementById("create-post");
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
+            error.innerHTML = "Post  Has  Created Sucessfuly !"
+            error.style.color =  "green"
+            error.style.display = "block";
+            
             let posts_section = document.querySelector(".posts-section");
             let firstElement = posts_section.firstChild ;
             let article = createPost(data.post);
@@ -31,7 +34,6 @@ let creatpostbtn =  document.getElementById("create-post");
             if (no_posts != null) {
                 no_posts.style.display = "none";
             }
-            
             //handle adding comments for the added posts without reloading page
             let buttons = document.querySelectorAll("#comment-button-created");
             buttons.forEach((button) => {
@@ -43,25 +45,18 @@ let creatpostbtn =  document.getElementById("create-post");
 
 
             //handle filter if adding posts without reloading the page
-            const posts = document.querySelectorAll('article[id^="article_post_"]');
-            let  radiosbtn  =  document.querySelectorAll("input[name='filter']");
-            radiosbtn.forEach(radio => {
-                radio.addEventListener("change", () => {
-                    let  filter  =  radio.value;
-                    filterPosts(filter, posts);
-                })
-            })
-            
-            search_field(posts);
+           
         } else {
             alert('Error');
         }
     })
     .catch(err => {
+        console.log("Eroor :=  " , err )
         let  error  = document.querySelector("#error");
-        error.innerHTML =  "Cannot create post ! (Field is empty Or something went wrong)";
+        error.innerHTML =  "Cannot create post ! (Field is empty Or something went wrong)" , err;
+        error.style.color =  "red"
         error.style.display = "block";
-        console.log(err)
+        //console.log(err)
     });
  })
 
@@ -88,6 +83,7 @@ let creatpostbtn =  document.getElementById("create-post");
     // Create the content paragraph
     const content = document.createElement('p');
     content.textContent = post.Content;
+    content.id = "content-post";
 
     // Create the posted info
     const postedInfo = document.createElement('p');
@@ -213,7 +209,7 @@ let creatpostbtn =  document.getElementById("create-post");
     hiddenInput.value = post.ID;
 
     const commentField = document.createElement('textarea');
-    commentField.classList.add('comment-field');
+    commentField.classList.add('coomment-field');
     commentField.name = 'comment';
     commentField.placeholder = 'Write a comment...';
     commentField.required = true;

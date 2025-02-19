@@ -32,17 +32,13 @@ async function  addComment(e) {
             if (none_comment != null) {
                 none_comment.style.display = "none";
             }
-        //     let  input  =  document.querySelectorAll("textarea[name=comment]");
-        //     input.forEach(inp => {
-        //         inp.value = "";
-        //     })
         } else {
             alert('Error');
         }
     })
     .catch(err => {
         console.log(err)
-        error.innerHTML = "Cannot Add Comment ! (Field is empty Or something went wrong)";
+        error.innerHTML = "Cannot Add Comment ! (Field is empty Or something went wrong or  Length  is Too long)";
         error.style.display = "block";
     });
 }
@@ -55,6 +51,7 @@ function createCommentsSection(comment) {
 
             const commentContent = document.createElement('div');
             commentContent.classList.add('comment-content');
+            commentContent.id = "comments-content";
 
             // Create comment text
             const commentText = document.createElement('p');

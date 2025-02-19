@@ -28,6 +28,10 @@ func check_comment_deslike(user_id int, comment_id int) bool {
 }
 
 func Like_comment_handle(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		Eroors(w, r, http.StatusMethodNotAllowed)
+		return
+	}
 	commentIDStr := r.URL.Path[len("/like-comment/"):]
 	commentID, err := strconv.Atoi(commentIDStr)
 	if err != nil || commentID < 0 {

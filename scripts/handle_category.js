@@ -5,6 +5,7 @@ function getSelectedCategories() {
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
 
-    console.log(selectedValues)
+    selectedValues = [...new Set(selectedValues)]
+    
     return selectedValues.join(" ")
 }

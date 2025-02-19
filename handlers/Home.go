@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
 	"forum/database"
@@ -12,7 +13,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var Interface, InterfaceError = template.ParseGlob("./templates/*.html")
+var Interface = template.Must(template.ParseGlob("./templates/*.html"))
 
 type Post struct {
 	Type      string
@@ -92,10 +93,14 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	// 	fmt.Println(post.Type)
 	// }
 	// Render the home page template with posts
-	Interface.ExecuteTemplate(w, "home.html", map[string]interface{}{
+	Eroor := Interface.ExecuteTemplate(w, "home.html", map[string]interface{}{
 		"Posts":    posts,
 		"LoggedIn": Sesion,
 	})
+	if Eroor != nil {
+		Eroors(w, r, http.StatusInternalServerError)
+		return
+	}
 }
 
 func Checksession(w http.ResponseWriter, r *http.Request) (bool, int) {
@@ -114,8 +119,22 @@ func Checksession(w http.ResponseWriter, r *http.Request) (bool, int) {
 }
 
 func Eroors(w http.ResponseWriter, r *http.Request, code int) {
-	Interface.ExecuteTemplate(w, "Error.html", map[string]interface{}{
+	Interface, err := template.ParseFiles("./templates/Error.html")
+	if err != nil {
+		log.Println("Error loading template:", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(code)
+	w.Header().Set("Content-Type", "text/html")
+	data := map[string]interface{}{
 		"Code":    code,
 		"Message": http.StatusText(code),
-	})
+	}
+	err = Interface.ExecuteTemplate(w, "Error.html", data)
+	if err != nil {
+		log.Println("Error rendering template:", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }

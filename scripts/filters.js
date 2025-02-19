@@ -1,60 +1,35 @@
-let  radiosbtn  =  document.querySelectorAll("input[name='filter']");
-radiosbtn.forEach(radio => {    
-    radio.addEventListener("change", () => {
-        let  filter  =  radio.value;
-        filterPosts(filter);
-    })
-})
+function filterPosts() {
+    let checked = document.querySelectorAll('input[name="categoryFilter"]:checked');
+    let categoriesChecked = [];
+    
+    for (let i = 0; i < checked.length; i++) {
+        categoriesChecked.push(checked[i].value);
+    }
 
-
-
-const posts = document.querySelectorAll('article[id^="article_post_"]');
-function  filterPosts(filter, psts) {
-    if (psts == null) psts = posts ;
-    psts.forEach(post => {
-        if (filter === 'all') {
+    let posts = document.querySelectorAll('article[id^="article_post_"]');
+    for (let i = 0; i < posts.length; i++) {
+        let post = posts[i];
+        if (categoriesChecked.length == 0) {
             post.style.display = 'block';
-        } else if (filter === 'created') {
-            if (post.classList.contains('created')) {
-                post.style.display = 'block';
-            } else {
-                post.style.display = 'none';
-            }
-        } else if (filter === 'liked') {
-            if (post.classList.contains('liked')) {
-                post.style.display = 'block';
-            } else {
-                post.style.display = 'none';
+            continue;
+        }
+
+        let postCategories = post.querySelector('.posts_categories').textContent.trim().split(' '); // Ensure proper splitting
+        let matchCount = 0;
+
+        // Check if post contains all selected categories
+        for (let j = 0; j < categoriesChecked.length; j++) {
+             
+            if (postCategories.includes(categoriesChecked[j])) { 
+                matchCount++;
             }
         }
-    });
-}
-
-
-
-
-let  searchfield = document.querySelector(".search-input");
-function search_field(pst) {
-    if (pst == null) pst = posts ;
-    searchfield.addEventListener("input", () => {
-        let  searchTerm = searchfield.value.toLowerCase();
-        pst.forEach(post => {
-            if (post.querySelector('.posts_categories').textContent.toLowerCase().includes(searchTerm)) {
-                post.style.display = 'block';
-            } else {
-                post.style.display = 'none';
-            }
-        });
-        newposts = document.querySelectorAll('article[id^="article_post_"][style="display: block;"]');
-        let Eroor = document.querySelector("#ErrorPosts") 
-        if(newposts.length === 0) {
-        Eroor.innerHTML = `<p>No posts to display. Be the first to <a href="/make-post">add a post</a>!</p>`
-        Eroor.style.display = "block";
-        }else {
-            Eroor.style.display = "none";
+        
+        if (matchCount === categoriesChecked.length) {
+            console.log(matchCount , categoriesChecked.length)
+            post.style.display = 'block';
+        } else {
+            post.style.display = 'none';
         }
-    })
+    }
 }
-
-
-search_field();

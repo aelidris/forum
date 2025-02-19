@@ -57,7 +57,12 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Content is required", http.StatusBadRequest)
 		return
 	}
-	// Insert the post into the database
+	// ---- Check  Lenght  of  The Content 
+	if  len(postContent.Title) >  50  ||  len(postContent.Content) >  300{
+		http.Error(w ,  "Something  Whas  Wrong !" ,  http.StatusBadRequest)
+		return 
+	}
+	// ---- Insert the post into the database
 	_, err = database.DB.Exec(`
         INSERT INTO posts (title, content, category, user_id) 
         VALUES (?, ?, ?, ?)`, postContent.Title, postContent.Content, postContent.Category, userID)
